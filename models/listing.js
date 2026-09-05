@@ -22,7 +22,7 @@ const listingSchema = new Schema ({
         set: (v) => v === "" ? "https://tse4.mm.bing.net/th/id/OIP.w6u0CxTFj5mf_C9Ya_RBbwHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" : v,
         validate: {
             validator: function(v) {
-                return /^https?:\/\/.+\..+/.test(v);
+                return /^https?:\/\/.+\..+/.test(v) || /^\/uploads\/.+/.test(v);
             },
             message: "Image must be a valid URL"
         }
