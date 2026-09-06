@@ -5,7 +5,14 @@ module.exports.listingSchema = Joi.object({
         title: Joi.string().trim().min(5).max(100).required(),
         description: Joi.string().trim().min(10).max(1000).required(),
         image: Joi.alternatives()
-            .try(Joi.string().uri(), Joi.string().pattern(/^\/uploads\//))
+            .try(
+                Joi.string().uri(),
+                Joi.string().pattern(/^\/uploads\//),
+                Joi.object({
+                    filename: Joi.string().required(),
+                    url: Joi.string().uri().required(),
+                })
+            )
             .allow(""),
         price: Joi.number().min(1).max(1000000).required(),
         location: Joi.string().trim().min(3).max(100).required(),

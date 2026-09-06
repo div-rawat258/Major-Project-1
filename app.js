@@ -5,7 +5,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 
 if (process.env.NODE_ENV !== "production") {
-    dotenv.config({ path: path.join(__dirname, "views/.env") });
+    dotenv.config({ path: path.join(__dirname, ".env") });
 }
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
