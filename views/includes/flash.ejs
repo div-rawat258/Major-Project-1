@@ -1,6 +1,6 @@
+<div class="flash-messages" aria-live="polite" aria-atomic="true">
 <% if(success && success.length) {%>
-<div 
-class="alert alert-success alert-dismissible fade show col-6 offset" role="alert">
+<div class="alert alert-success alert-dismissible fade show" role="alert">
 <%= success%>
 <button type="button"
  class="btn-close" 
@@ -10,7 +10,7 @@ class="alert alert-success alert-dismissible fade show col-6 offset" role="alert
 <% }%>
 
 <% if(error && error.length) {%>
-<div class="alert alert-danger alert-dismissible fade show col-6 offset" role="alert">
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
 <%= error%>
 <button type="button"
  class="btn-close" 
@@ -18,4 +18,5 @@ class="alert alert-success alert-dismissible fade show col-6 offset" role="alert
  aria-label="Close"></button>
 </div>
 
- <% }%> 
+ <% }%>
+</div>

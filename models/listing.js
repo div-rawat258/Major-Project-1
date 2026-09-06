@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const defaultImage = "https://tse4.mm.bing.net/th/id/OIP.w6u0CxTFj5mf_C9Ya_RBbwHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3";
 
 const listingSchema = new Schema ({
     title: {
@@ -17,14 +18,22 @@ const listingSchema = new Schema ({
         trim: true
     },
     image: {
-        type: String,
-        default: "https://tse4.mm.bing.net/th/id/OIP.w6u0CxTFj5mf_C9Ya_RBbwHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-        set: (v) => v === "" ? "https://tse4.mm.bing.net/th/id/OIP.w6u0CxTFj5mf_C9Ya_RBbwHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" : v,
+        type: Schema.Types.Mixed,
+        default: defaultImage,
+        set: (v) => v === "" ? defaultImage : v,
         validate: {
             validator: function(v) {
-                return /^https?:\/\/.+\..+/.test(v);
+                if (typeof v === "string") {
+                    return /^https?:\/\/.+\..+/.test(v) || /^\/uploads\/.+/.test(v);
+                }
+
+                if (v && typeof v === "object") {
+                    return typeof v.filename === "string" && typeof v.url === "string" && /^https?:\/\/.+\..+/.test(v.url);
+                }
+
+                return false;
             },
-            message: "Image must be a valid URL"
+            message: "Image must be a valid URL or image object"
         }
     },
     price: {
@@ -49,8 +58,13 @@ const listingSchema = new Schema ({
     },
     reviews: [{
         type:Schema.Types.ObjectId,
-        ref:"Review"
-    }],
+        ref:"Review",
+    },
+    ],
+        owner: {
+            type: Schema.Types.ObjectId,
+            ref:"User",
+        },
     createdAt: {
         type: Date,
         default: Date.now

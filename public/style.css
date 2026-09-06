@@ -10,6 +10,43 @@ body{
 flex:1;
 
 }
+
+.flash-messages {
+    position: fixed;
+    top: 6rem;
+    left: 50%;
+    z-index: 1055;
+    width: min(90%, 42rem);
+    transform: translateX(-50%);
+}
+
+.flash-messages .alert {
+    margin: 0;
+    box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.15);
+}
+
+.auth-panel {
+    padding: 2rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background-color: #fff;
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.08);
+}
+
+.auth-panel h1 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.75rem;
+}
+
+.auth-panel .btn {
+    width: 100%;
+}
+
+.auth-footer {
+    margin: 1.5rem 0 0;
+    text-align: center;
+}
 .navbar {
     height: 5rem;
     background-color: white;
@@ -215,6 +252,94 @@ footer {
 .show-card {
     padding-left: 0;
     padding-right: 0;
+}
+
+/* Reviews */
+.review-heading {
+    margin-top: 2rem;
+    font-weight: 700;
+}
+
+.review-heading + form {
+    max-width: 38rem;
+    padding: 1.25rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #fff;
+    box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.06);
+}
+
+.reviews-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 2rem 0 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.75rem;
+}
+
+.reviews-header h4 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.reviews-header span {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+}
+
+.review-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 10rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #fff;
+    box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.05);
+}
+
+.review-card .card-body {
+    padding: 0 !important;
+}
+
+.review-card .card-title {
+    margin-bottom: 0.6rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.review-comment {
+    color: #4b5563;
+    line-height: 1.55;
+}
+
+.review-card .starability-result {
+    margin-top: 0.75rem;
+}
+
+.review-delete {
+    margin-top: 1rem;
+}
+
+.review-delete .btn {
+    border: 0;
+    background: transparent;
+    color: #6b7280;
+    padding: 0;
+}
+
+.review-delete .btn:hover {
+    color: #dc2626;
 }
 
 

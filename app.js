@@ -2,6 +2,11 @@ const  express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
+const dotenv = require("dotenv");
+
+if (process.env.NODE_ENV !== "production") {
+    dotenv.config({ path: path.join(__dirname, ".env") });
+}
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 // const wrapAsync = require("./utils/wrapAsync.js");
@@ -55,7 +60,7 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 const sessionOptions = {
-    secret:"mysupersecretcode",
+    secret: process.env.SECRET || "mysupersecretcode",
     resave:false,
     saveUninitialized: true,
     cookie: {
@@ -106,8 +111,7 @@ passport.deserializeUser(async (id, done) => {
 app.use((req,res,next) => {
 res.locals.success = req.flash("success");
 res.locals.error = req.flash("error");
-
-console.log(res.locals.success);
+res.locals.currUser = req.user;
 next();
 });
 
