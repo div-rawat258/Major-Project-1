@@ -22,9 +22,9 @@
                <label for="image" class="form-label">Image Link</label>
           <input name="listing[image]" placeholder="enter image URL/Link" type="text"  class="form-control">
         </div> -->
-        <div  class="mb-3">
-               <label for="image" class="form-label">Upload Listing Image</label>
-          <input name="listing[image]" type="file"  class="form-control">
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Listing Image</label>
+            <input name="listing[image]" type="file" class="form-control" accept="image/*">
         </div>
 
         <div class="row">  
@@ -44,6 +44,10 @@
     <label for="location" class="form-label">location</label>
     <input name="listing[location]" placeholder="pauri,Uttarkhand" type="text"  class="form-control" required>
     <div class="invalid-feedback">location required</div>
+</div>
+<div class="listing-location-map" data-location-map>
+  <div id="location-map" class="location-map"></div>
+  <div class="form-text" data-map-status>Enter a location and country to show it on the map.</div>
 </div>
     
         <br></br>

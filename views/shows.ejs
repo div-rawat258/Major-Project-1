@@ -18,6 +18,13 @@
   </div>
     </div>
   </br>
+
+<% if (listing.coordinates && Number.isFinite(Number(listing.coordinates.latitude)) && Number.isFinite(Number(listing.coordinates.longitude))) { %>
+  <div class="col-md-8 offset-3 mb-4">
+    <h4>Location</h4>
+    <div id="listing-map" class="location-map" data-map-latitude="<%= listing.coordinates.latitude %>" data-map-longitude="<%= listing.coordinates.longitude %>" data-map-title="<%= listing.title %>"></div>
+  </div>
+<% } %>
     
     
 <% if(currUser && listing.owner && listing.owner._id.equals(currUser._id) )  {%> 

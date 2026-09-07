@@ -5,7 +5,9 @@
           <br></br>
 
     <h3>Edit Listing</h3>
-    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation">
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate 
+      class="needs-validation"
+      enctype = "multipart/form-data">
        <div  class="mb-3">
     <label for="title" class="form-label">Title</label>
       <input name="listing[title]" value="<%= listing.title %>" class="form-control" required>
@@ -17,9 +19,19 @@
    <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
         <div class="invalid-feedback">Description is required</div>
         </div>
-        <div  class="mb-3">
-               <label for="image" class="form-label">Image</label>
-          <input name="listing[image]" value="<%= typeof listing.image === 'object' ? listing.image.url : listing.image %>" type="text"  class="form-control">
+        <div class="mb-3">
+            <%
+                const currentImage = listing.image && typeof listing.image === 'object'
+                    ? listing.image.url
+                    : (listing.image || 'https://tse4.mm.bing.net/th/id/OIP.w6u0CxTFj5mf_C9Ya_RBbwHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3');
+            %>
+            <label class="form-label">Current Listing Image</label><br>
+            <img src="<%= currentImage %>" alt="Current listing image" class="img-fluid rounded" style="max-height: 220px;">
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload New Image</label>
+            <input name="listing[image]" type="file" class="form-control" accept="image/*">
         </div>
 
         <div class="row">  
@@ -41,6 +53,10 @@
    <input name="listing[location]" value="<%= listing.location %>" type="text"  class="form-control" required>
       <div class="invalid-feedback">Location is required</div>
       </div>
+<div class="listing-location-map" data-location-map>
+  <div id="location-map" class="location-map"></div>
+  <div class="form-text" data-map-status>Loading the current location...</div>
+</div>
     
         <br></br>
         <button class="btn btn-dark add-btn">Edit</button>
