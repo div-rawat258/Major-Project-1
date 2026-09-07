@@ -56,6 +56,11 @@ const listingSchema = new Schema ({
         maxlength: [100, "Country cannot exceed 100 characters"],
         trim: true
     },
+    coordinates: {
+        latitude: Number,
+        longitude: Number,
+        displayName: String
+    },
     reviews: [{
         type:Schema.Types.ObjectId,
         ref:"Review",

@@ -14,9 +14,7 @@ const {storage} = require("../cloudconfig.js");
 const upload = multer({ storage});
 
 const normalizeListingBody = (req, res, next) => {
-    if (!req.body || typeof req.body !== "object") {
-        return next();
-    }
+    req.body = req.body || {};
 
     const normalized = req.body.listing && typeof req.body.listing === "object"
         ? { ...req.body.listing }
@@ -45,10 +43,14 @@ const normalizeListingBody = (req, res, next) => {
 };
 
 const validateListing = (req, res, next) => {
+    if (!req.body || !req.body.listing) {
+        return next(new ExpressError(400, "Please provide valid listing data."));
+    }
+
     const { error, value } = listingSchema.validate(req.body, { convert: true });
     if (error) {
         const message = error.details.map((detail) => detail.message).join(", ");
-        throw new ExpressError(400, message);
+        return next(new ExpressError(400, message));
     }
     req.body = value;
     next();
@@ -67,10 +69,12 @@ router
 
 // New routes
 router.get("/new",isLoggedIn, listingController.renderNewForm);
+router.get("/geocode", isLoggedIn, wrapAsync(listingController.geocode));
 
 router.route("/:id")
 .get(wrapAsync(listingController.showListing))
-.put(isLoggedIn, isOwner, normalizeListingBody, validateListing, wrapAsync(listingController.updateListing))
+.put(isLoggedIn, isOwner,    upload.single("listing[image]"),
+ normalizeListingBody, validateListing, wrapAsync(listingController.updateListing))
 .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing));
 
 
