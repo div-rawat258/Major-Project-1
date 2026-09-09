@@ -73,7 +73,12 @@ const listingSchema = new Schema ({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+//  category:{
+//     type:String,
+//     required:["mountains","arctic","farms","deserts"],
+//  }
+
 });
 
 listingSchema.post("findOneAndDelete", async (listing) => {
