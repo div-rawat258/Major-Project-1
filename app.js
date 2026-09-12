@@ -1,18 +1,20 @@
 // const  express = require("express");
 // const app = express();
 // const mongoose = require("mongoose");
-// const path = require("path");
-// const dotenv = require("dotenv");
+
+const path = require("path");
+const dotenv = require("dotenv");
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config({ path: path.join(__dirname, ".env") });
 }
 
+
 const  express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const path = require("path");
-const dotenv = require("dotenv");
+// const path = require("path");
+// const dotenv = require("dotenv");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 // const wrapAsync = require("./utils/wrapAsync.js");
@@ -31,30 +33,32 @@ const reviewRoutes = require("./routes/review.js");
 const userRoutes = require("./routes/user.js");
 
 // const MONGO_URL = process.env.ATLASTDB_URL;
-const dbUrl = process.env.ATLASDB_URL;
-main()
-.then(() => {
-    console.log("connected to DB");
-})
-.catch((err) => {
-    console.log(err);
-});
+// const dbUrl = process.env.ATLASDB_URL;
 
-async function main() {
- await mongoose.connect(dbUrl);
-}
 
-mongoose.set("bufferCommands", true);
+// main()
+// .then(() => {
+//     console.log("connected to DB");
+// })
+// .catch((err) => {
+//     console.log(err);
+// });
 
-async function seedListings() {
-    const count = await Listing.countDocuments();
-    if (count === 0) {
-        await Listing.insertMany(sampleListings.data);
-        console.log("Seeded default listings");
-    } else {
-        console.log(`Listings already exist (${count} records found)`);
-    }
-}
+// async function main() {
+//  await mongoose.connect(dbUrl);
+// }
+
+// mongoose.set("bufferCommands", false);
+
+// async function seedListings() {
+//     const count = await Listing.countDocuments();
+//     if (count === 0) {
+//         await Listing.insertMany(sampleListings.data);
+//         console.log("Seeded default listings");
+//     } else {
+//         console.log(`Listings already exist (${count} records found)`);
+//     }
+// }
 
 
 // async function main() {
@@ -70,6 +74,43 @@ async function seedListings() {
 //         throw err;
 //     }
 // }
+const dbUrl = process.env.ATLASDB_URL;
+
+mongoose.set("bufferCommands", true);
+
+async function seedListings() {
+    const count = await Listing.countDocuments();
+
+    if (count === 0) {
+        await Listing.insertMany(sampleListings.data);
+        console.log("Seeded default listings");
+    } else {
+        console.log(`Listings already exist (${count} records found)`);
+    }
+}
+
+async function startServer() {
+    try {
+        await mongoose.connect(dbUrl);
+
+        console.log("Connected to DB");
+
+        await seedListings();
+
+        app.listen(8080, () => {
+            console.log("Server listening on port 8080");
+        });
+    } catch (err) {
+        console.error("DB startup failed:", err);
+        process.exit(1);
+    }
+}
+
+startServer();
+
+
+
+
 
 app.set("view engine","ejs");
 app.set("views", path.join(__dirname , "views"));
@@ -160,13 +201,13 @@ app.use((err,req,res,next) => {
         { err: {statusCode, message} });
 });
 
-main()
-    .then(() => {
-        app.listen(8080, () => {
-            console.log("server is listing to port 8080");
-        });
-    })
-    .catch((err) => {
-        console.error("DB startup failed:", err.message);
-        process.exit(1);
-    });
+// main()
+//     .then(() => {
+//         app.listen(8080, () => {
+//             console.log("server is listing to port 8080");
+//         });
+//     })
+//     .catch((err) => {
+//         console.error("DB startup failed:", err.message);
+//         process.exit(1);
+//     });
