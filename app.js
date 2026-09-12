@@ -1,12 +1,18 @@
+// const  express = require("express");
+// const app = express();
+// const mongoose = require("mongoose");
+// const path = require("path");
+// const dotenv = require("dotenv");
+
+if (process.env.NODE_ENV !== "production") {
+    dotenv.config({ path: path.join(__dirname, ".env") });
+}
+
 const  express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
 const dotenv = require("dotenv");
-
-if (process.env.NODE_ENV !== "production") {
-    dotenv.config({ path: path.join(__dirname, ".env") });
-}
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 // const wrapAsync = require("./utils/wrapAsync.js");
@@ -24,9 +30,21 @@ const listingRoutes = require("./routes/listing.js");
 const reviewRoutes = require("./routes/review.js");
 const userRoutes = require("./routes/user.js");
 
-const MONGO_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/wanderlust";
+// const MONGO_URL = process.env.ATLASTDB_URL;
+const dbUrl = process.env.ATLASDB_URL;
+main()
+.then(() => {
+    console.log("connected to DB");
+})
+.catch((err) => {
+    console.log(err);
+});
 
-mongoose.set("bufferCommands", false);
+async function main() {
+ await mongoose.connect(dbUrl);
+}
+
+mongoose.set("bufferCommands", true);
 
 async function seedListings() {
     const count = await Listing.countDocuments();
@@ -38,19 +56,20 @@ async function seedListings() {
     }
 }
 
-async function main() {
-    try {
-        await mongoose.connect(MONGO_URL, {
-            serverSelectionTimeoutMS: 5000,
-            socketTimeoutMS: 45000,
-        });
-        console.log("connected to DB");
-        await seedListings();
-    } catch (err) {
-        console.error("MongoDB Connection Error:", err.message);
-        throw err;
-    }
-}
+
+// async function main() {
+//     try {
+//         await mongoose.connect( dbUrl, {
+//             serverSelectionTimeoutMS: 5000,
+//             socketTimeoutMS: 45000,
+//         });
+//         console.log("connected to DB");
+//         await seedListings();
+//     } catch (err) {
+//         console.error(" mongoose Connection Error:", err.message);
+//         throw err;
+//     }
+// }
 
 app.set("view engine","ejs");
 app.set("views", path.join(__dirname , "views"));
